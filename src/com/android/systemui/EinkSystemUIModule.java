@@ -157,7 +157,6 @@ public abstract class EinkSystemUIModule {
     @Binds
     abstract DozeHost provideDozeHost(DozeServiceHost dozeServiceHost);
 
-    
     @Binds
     abstract SystemUIRootComponent bindSystemUIRootComponent(
             EinkSystemUIRootComponent systemUIRootComponent);

@@ -46,6 +46,14 @@ public class EinkSystemUIFactory extends SystemUIFactory {
             names.add(s);
         }
 
+        for (String s : resources.getStringArray(R.array.config_systemUIServiceComponentsExclude)) {
+            names.remove(s);
+        }
+
+        for (String s : resources.getStringArray(R.array.config_systemUIServiceComponentsInclude)) {
+            names.add(s);
+        }
+
         String[] finalNames = new String[names.size()];
         names.toArray(finalNames);
 

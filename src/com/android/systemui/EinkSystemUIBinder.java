@@ -16,11 +16,6 @@
 
 package com.android.systemui;
 
-import com.android.systemui.LatencyTester;
-import com.android.systemui.ScreenDecorations;
-import com.android.systemui.SizeCompatModeActivityController;
-import com.android.systemui.SliceBroadcastRelayHandler;
-import com.android.systemui.SystemUI;
 import com.android.systemui.accessibility.SystemActions;
 import com.android.systemui.accessibility.WindowMagnification;
 import com.android.systemui.biometrics.AuthController;
@@ -28,7 +23,6 @@ import com.android.systemui.bubbles.dagger.BubbleModule;
 import com.android.systemui.globalactions.GlobalActionsComponent;
 import com.android.systemui.keyguard.KeyguardViewMediator;
 import com.android.systemui.keyguard.dagger.KeyguardModule;
-import com.android.systemui.pip.PipUI;
 import com.android.systemui.power.PowerUI;
 import com.android.systemui.recents.Recents;
 import com.android.systemui.recents.RecentsModule;
@@ -37,7 +31,6 @@ import com.android.systemui.stackdivider.Divider;
 import com.android.systemui.statusbar.dagger.StatusBarModule;
 import com.android.systemui.statusbar.notification.InstantAppNotifier;
 import com.android.systemui.statusbar.phone.StatusBar;
-import com.android.systemui.statusbar.tv.TvStatusBar;
 import com.android.systemui.theme.ThemeOverlayController;
 import com.android.systemui.toast.ToastUI;
 import com.android.systemui.util.leak.GarbageMonitor;
@@ -78,29 +71,11 @@ public abstract class EinkSystemUIBinder {
     @ClassKey(GlobalActionsComponent.class)
     public abstract SystemUI bindGlobalActionsComponent(GlobalActionsComponent sysui);
 
-    /** Inject into InstantAppNotifier. */
-    @Binds
-    @IntoMap
-    @ClassKey(InstantAppNotifier.class)
-    public abstract SystemUI bindInstantAppNotifier(InstantAppNotifier sysui);
-
     /** Inject into KeyguardViewMediator. */
     @Binds
     @IntoMap
     @ClassKey(KeyguardViewMediator.class)
     public abstract SystemUI bindKeyguardViewMediator(KeyguardViewMediator sysui);
-
-    /** Inject into LatencyTests. */
-    @Binds
-    @IntoMap
-    @ClassKey(LatencyTester.class)
-    public abstract SystemUI bindLatencyTester(LatencyTester sysui);
-
-    /** Inject into PipUI. */
-    @Binds
-    @IntoMap
-    @ClassKey(PipUI.class)
-    public abstract SystemUI bindPipUI(PipUI sysui);
 
     /** Inject into PowerUI. */
     @Binds
@@ -114,12 +89,6 @@ public abstract class EinkSystemUIBinder {
     @ClassKey(Recents.class)
     public abstract SystemUI bindRecents(Recents sysui);
 
-    /** Inject into ScreenDecorations. */
-    @Binds
-    @IntoMap
-    @ClassKey(ScreenDecorations.class)
-    public abstract SystemUI bindScreenDecorations(ScreenDecorations sysui);
-
     /** Inject into ShortcutKeyDispatcher. */
     @Binds
     @IntoMap
@@ -132,12 +101,6 @@ public abstract class EinkSystemUIBinder {
     @ClassKey(SizeCompatModeActivityController.class)
     public abstract SystemUI bindsSizeCompatModeActivityController(
             SizeCompatModeActivityController sysui);
-
-    /** Inject into SliceBroadcastRelayHandler. */
-    @Binds
-    @IntoMap
-    @ClassKey(SliceBroadcastRelayHandler.class)
-    public abstract SystemUI bindSliceBroadcastRelayHandler(SliceBroadcastRelayHandler sysui);
 
     /** Inject into StatusBar. */
     @Binds

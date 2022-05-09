@@ -21,7 +21,15 @@
 
     <!-- The list of components to exclude from config_systemUIServiceComponents. -->
     <string-array name="config_systemUIServiceComponentsExclude" translatable="false">
+        <item>com.android.systemui.pip.PipUI</item>
+        <item>com.android.systemui.ScreenDecorations</item>
+        <item>com.android.systemui.biometrics.BiometricDialogImpl</item>
+        <item>com.android.systemui.biometrics.AuthController</item>
+        <item>com.android.systemui.LatencyTester</item>
+        <item>com.android.systemui.SliceBroadcastRelayHandler</item>
+        <item>com.android.systemui.statusbar.notification.InstantAppNotifier</item>
     </string-array>
+
     <!-- The list of components to append to config_systemUIServiceComponents. -->
     <string-array name="config_systemUIServiceComponentsInclude" translatable="false">
     </string-array>
