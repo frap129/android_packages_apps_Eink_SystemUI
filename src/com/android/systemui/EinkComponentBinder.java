@@ -13,21 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.android.systemui
+package com.android.systemui;
 
-import com.android.systemui.dagger.DefaultActivityBinder
-import com.android.systemui.dagger.DefaultBroadcastReceiverBinder
-import com.android.systemui.dagger.DefaultServiceBinder
-import dagger.Module
+import com.android.systemui.dagger.DefaultActivityBinder;
+import com.android.systemui.dagger.DefaultBroadcastReceiverBinder;
+import com.android.systemui.dagger.DefaultServiceBinder;
+import dagger.Module;
 
 /**
  * Supply Activities, Services, and SystemUI Objects for CarSystemUI.
  */
-@Module(includes = [
-    DefaultActivityBinder::class,
-    DefaultBroadcastReceiverBinder::class,
-    DefaultServiceBinder::class
-])
-class EinkComponentBinder {
+@Module(includes = {
+    DefaultActivityBinder.class,
+    DefaultBroadcastReceiverBinder.class,
+    DefaultServiceBinder.class
+})
+public class EinkComponentBinder {
 
 }

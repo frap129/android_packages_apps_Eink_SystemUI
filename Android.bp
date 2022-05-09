@@ -21,7 +21,6 @@ android_library {
 
     srcs: [
         "src/**/*.java",
-        "src/**/*.kt",
     ],
 
     resource_dirs: [
