@@ -1,3 +1,7 @@
 -keep class com.android.systemui.EinkSystemUIFactory
+-keep class com.android.systemui.EinkSystemUIRootComponent
+-keep class com.android.systemui.EinkSystemUIBinder
+-keep class com.android.systemui.EinkSystemUIModule
+-keep class com.android.systemui.EinkComponentBinder
 
 -include ../../../../frameworks/base/packages/SystemUI/proguard.flags
