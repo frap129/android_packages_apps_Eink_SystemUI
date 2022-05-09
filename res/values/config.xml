@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  ~ Copyright (C) 2018 The Android Open Source Project
+  ~ Copyright (C) 2022 Joseph Maples
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
   ~ you may not use this file except in compliance with the License.
@@ -18,4 +18,11 @@
     <string name="config_systemUIFactoryComponent" translatable="false">
         com.android.systemui.EinkSystemUIFactory
     </string>
+
+    <!-- The list of components to exclude from config_systemUIServiceComponents. -->
+    <string-array name="config_systemUIServiceComponentsExclude" translatable="false">
+    </string-array>
+    <!-- The list of components to append to config_systemUIServiceComponents. -->
+    <string-array name="config_systemUIServiceComponentsInclude" translatable="false">
+    </string-array>
 </resources>
