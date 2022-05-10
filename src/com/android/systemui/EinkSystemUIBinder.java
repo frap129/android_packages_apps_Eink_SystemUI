@@ -20,6 +20,8 @@ import com.android.systemui.accessibility.SystemActions;
 import com.android.systemui.accessibility.WindowMagnification;
 import com.android.systemui.biometrics.AuthController;
 import com.android.systemui.bubbles.dagger.BubbleModule;
+import com.android.systemui.eink.statusbar.EinkStatusBar;
+import com.android.systemui.eink.statusbar.EinkStatusBarModule;
 import com.android.systemui.globalactions.GlobalActionsComponent;
 import com.android.systemui.keyguard.KeyguardViewMediator;
 import com.android.systemui.keyguard.dagger.KeyguardModule;
@@ -28,8 +30,6 @@ import com.android.systemui.recents.Recents;
 import com.android.systemui.recents.RecentsModule;
 import com.android.systemui.shortcut.ShortcutKeyDispatcher;
 import com.android.systemui.stackdivider.Divider;
-import com.android.systemui.statusbar.dagger.StatusBarModule;
-import com.android.systemui.statusbar.notification.InstantAppNotifier;
 import com.android.systemui.statusbar.phone.StatusBar;
 import com.android.systemui.theme.ThemeOverlayController;
 import com.android.systemui.toast.ToastUI;
@@ -44,7 +44,7 @@ import dagger.multibindings.IntoMap;
 /**
  * SystemUI objects that are injectable should go here.
  */
-@Module(includes = {RecentsModule.class, StatusBarModule.class, BubbleModule.class,
+@Module(includes = {RecentsModule.class, EinkStatusBarModule.class, BubbleModule.class,
         KeyguardModule.class})
 public abstract class EinkSystemUIBinder {
     /** Inject into AuthController. */
@@ -106,7 +106,7 @@ public abstract class EinkSystemUIBinder {
     @Binds
     @IntoMap
     @ClassKey(StatusBar.class)
-    public abstract SystemUI bindsStatusBar(StatusBar sysui);
+    public abstract SystemUI bindsStatusBar(EinkStatusBar sysui);
 
     /** Inject into SystemActions. */
     @Binds

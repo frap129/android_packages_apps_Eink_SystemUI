@@ -34,6 +34,7 @@ import com.android.systemui.dagger.qualifiers.Main;
 import com.android.systemui.dock.DockManager;
 import com.android.systemui.dock.DockManagerImpl;
 import com.android.systemui.doze.DozeHost;
+import com.android.systemui.eink.statusbar.EinkStatusBar;
 import com.android.systemui.plugins.qs.QSFactory;
 import com.android.systemui.plugins.statusbar.StatusBarStateController;
 import com.android.systemui.power.EnhancedEstimates;
@@ -160,4 +161,7 @@ public abstract class EinkSystemUIModule {
     @Binds
     abstract SystemUIRootComponent bindSystemUIRootComponent(
             EinkSystemUIRootComponent systemUIRootComponent);
+
+    @Binds
+    abstract StatusBar bindStatusBar(EinkStatusBar statusBar);
 }
