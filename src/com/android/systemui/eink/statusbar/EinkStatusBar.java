@@ -24,6 +24,7 @@ import android.util.DisplayMetrics;
 import androidx.annotation.Nullable;
 
 import com.android.internal.logging.MetricsLogger;
+import com.android.internal.statusbar.RegisterStatusBarResult;
 import com.android.keyguard.KeyguardUpdateMonitor;
 import com.android.keyguard.ViewMediatorCallback;
 import com.android.systemui.InitController;
@@ -31,6 +32,7 @@ import com.android.systemui.assist.AssistManager;
 import com.android.systemui.broadcast.BroadcastDispatcher;
 import com.android.systemui.bubbles.BubbleController;
 import com.android.systemui.colorextraction.SysuiColorExtractor;
+import com.android.systemui.fragments.FragmentHostManager;
 import com.android.systemui.keyguard.DismissCallbackRegistry;
 import com.android.systemui.keyguard.KeyguardViewMediator;
 import com.android.systemui.keyguard.ScreenLifecycle;
@@ -63,7 +65,9 @@ import com.android.systemui.statusbar.notification.interruption.NotificationInte
 import com.android.systemui.statusbar.notification.logging.NotificationLogger;
 import com.android.systemui.statusbar.notification.row.NotificationGutsManager;
 import com.android.systemui.statusbar.phone.AutoHideController;
+import com.android.systemui.statusbar.phone.BarTransitions;
 import com.android.systemui.statusbar.phone.BiometricUnlockController;
+import com.android.systemui.statusbar.phone.CollapsedStatusBarFragment;
 import com.android.systemui.statusbar.phone.DozeParameters;
 import com.android.systemui.statusbar.phone.DozeScrimController;
 import com.android.systemui.statusbar.phone.DozeServiceHost;
@@ -78,6 +82,7 @@ import com.android.systemui.statusbar.phone.LockscreenWallpaper;
 import com.android.systemui.statusbar.phone.NotificationGroupManager;
 import com.android.systemui.statusbar.phone.NotificationShadeWindowController;
 import com.android.systemui.statusbar.phone.PhoneStatusBarPolicy;
+import com.android.systemui.statusbar.phone.PhoneStatusBarView;
 import com.android.systemui.statusbar.phone.ScrimController;
 import com.android.systemui.statusbar.phone.ShadeController;
 import com.android.systemui.statusbar.phone.StatusBar;
@@ -103,6 +108,8 @@ import java.util.concurrent.Executor;
 import javax.inject.Provider;
 
 import dagger.Lazy;
+
+import com.android.systemui.R;
 
 public class EinkStatusBar extends StatusBar {
     public EinkStatusBar(Context context,
@@ -209,5 +216,16 @@ public class EinkStatusBar extends StatusBar {
                 userInfoControllerImpl, phoneStatusBarPolicy, keyguardIndicationController,
                 dismissCallbackRegistry, notificationShadeDepthControllerLazy,
                 statusBarTouchableRegionManager);
+    }
+
+    @Override
+    protected void makeStatusBarView(@Nullable RegisterStatusBarResult result) {
+        super.makeStatusBarView(result);
+        FragmentHostManager.get(mPhoneStatusBarWindow)
+                .getFragmentManager()
+                .beginTransaction()
+                .replace(R.id.status_bar_container, new EinkCollapsedStatusBarFragment(),
+                        CollapsedStatusBarFragment.TAG)
+                .commit();
     }
 }
