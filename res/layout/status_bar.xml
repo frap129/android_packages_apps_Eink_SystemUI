@@ -72,7 +72,7 @@
                 android:paddingHorizontal="@dimen/status_bar_padding_start"
                 android:paddingBottom="2dp"
                 android:src="@drawable/ic_house"
-                android:scaleType="centerCrop"
+                android:scaleType="center"
                 />
 
             <ImageView
@@ -82,7 +82,7 @@
                 android:paddingHorizontal="@dimen/status_bar_padding_start"
                 android:paddingBottom="2dp"
                 android:src="@drawable/ic_arrow_back"
-                android:scaleType="centerCrop"
+                android:scaleType="center"
                 />
 
             <ImageView
@@ -92,7 +92,7 @@
                 android:paddingHorizontal="@dimen/status_bar_padding_start"
                 android:paddingBottom="2dp"
                 android:src="@drawable/ic_recents"
-                android:scaleType="centerCrop"
+                android:scaleType="center"
                 />
 
             <ImageView
