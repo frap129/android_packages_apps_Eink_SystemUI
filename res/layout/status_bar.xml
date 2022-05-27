@@ -44,36 +44,41 @@
         android:id="@+id/status_bar_contents"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingStart="@dimen/status_bar_padding_start"
         android:paddingEnd="@dimen/status_bar_padding_end"
         android:paddingTop="@dimen/status_bar_padding_top"
-        android:layout_marginHorizontal="150dp"
+        android:layout_marginHorizontal="50dp"
         android:layout_marginTop="4dp"
         android:orientation="horizontal"
         android:background="@drawable/status_bar_background"
-        android:gravity="end|bottom"
+        android:gravity="start|bottom"
         android:layout_gravity="center_horizontal|bottom"
         >
 
         <LinearLayout
             android:id="@+id/buttons"
-            android:layout_height="36dp"
+            android:layout_height="match_parent"
             android:layout_width="0dp"
-            android:clipChildren="false"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toStartOf="@id/midlineVertical"
+            app:layout_constraintHorizontal_bias="0"
             >
             <ImageView
                 android:id="@+id/home"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:paddingHorizontal="@dimen/status_bar_padding_start"
+                android:paddingEnd="@dimen/status_bar_padding_start"
                 android:paddingBottom="2dp"
                 android:src="@drawable/ic_house"
                 android:scaleType="center"
                 />
+
+            <View
+                android:layout_width="1.5dp"
+                android:layout_height="match_parent"
+                android:background="#000000"/>
+
 
             <ImageView
                 android:id="@+id/back"
@@ -85,26 +90,41 @@
                 android:scaleType="center"
                 />
 
+            <View
+                android:layout_width="1.5dp"
+                android:layout_height="match_parent"
+                android:background="#000000"/>
+
             <ImageView
                 android:id="@+id/recents"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:paddingHorizontal="@dimen/status_bar_padding_start"
-                android:paddingBottom="2dp"
+                android:paddingBottom="1.5dp"
                 android:src="@drawable/ic_recents"
                 android:scaleType="center"
                 />
+
+            <View
+                android:layout_width="1.5dp"
+                android:layout_height="match_parent"
+                android:background="#000000"/>
+
 
             <ImageView
                 android:id="@+id/refresh"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:paddingHorizontal="@dimen/status_bar_padding_start"
-                android:paddingBottom="2dp"
+                android:paddingBottom="1.5dp"
                 android:src="@drawable/ic_eink_refresh"
                 android:scaleType="center"
                 />
 
+            <View
+                android:layout_width="1.5dp"
+                android:layout_height="match_parent"
+                android:background="#000000"/>
         </LinearLayout>
 
         <androidx.constraintlayout.widget.Guideline
