@@ -33,4 +33,8 @@
     <!-- The list of components to append to config_systemUIServiceComponents. -->
     <string-array name="config_systemUIServiceComponentsInclude" translatable="false">
     </string-array>
+
+    <!-- Make default statusbar components black -->
+    <color name="light_mode_icon_color_single_tone">#000000</color>
+    <color name="dark_mode_icon_color_single_tone">#000000</color>
 </resources>
