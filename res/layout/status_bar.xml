@@ -18,9 +18,10 @@
 <!--    android:background="@drawable/status_bar_closed_default_background" -->
 <com.android.systemui.statusbar.phone.PhoneStatusBarView
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:systemui="http://schemas.android.com/apk/res/com.android.systemui"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/status_bar_height"
+    android:layout_height="48dp"
     android:id="@+id/status_bar"
     android:orientation="vertical"
     android:focusable="false"
@@ -39,23 +40,97 @@
         android:visibility="gone"
         />
 
-    <LinearLayout android:id="@+id/status_bar_contents"
-        android:layout_width="wrap_content"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/status_bar_contents"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:paddingStart="@dimen/status_bar_padding_start"
         android:paddingEnd="@dimen/status_bar_padding_end"
         android:paddingTop="@dimen/status_bar_padding_top"
+        android:layout_marginHorizontal="150dp"
+        android:layout_marginTop="4dp"
         android:orientation="horizontal"
         android:background="@drawable/status_bar_background"
         android:gravity="end|bottom"
         android:layout_gravity="center_horizontal|bottom"
         >
 
+        <LinearLayout
+            android:id="@+id/buttons"
+            android:layout_height="36dp"
+            android:layout_width="0dp"
+            android:clipChildren="false"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/midlineVertical"
+            >
+            <ImageView
+                android:id="@+id/home"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:paddingHorizontal="@dimen/status_bar_padding_start"
+                android:paddingBottom="2dp"
+                android:src="@drawable/ic_house"
+                android:scaleType="centerCrop"
+                />
+
+            <ImageView
+                android:id="@+id/back"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:paddingHorizontal="@dimen/status_bar_padding_start"
+                android:paddingBottom="2dp"
+                android:src="@drawable/ic_arrow_back"
+                android:scaleType="centerCrop"
+                />
+
+            <ImageView
+                android:id="@+id/recents"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:paddingHorizontal="@dimen/status_bar_padding_start"
+                android:paddingBottom="2dp"
+                android:src="@drawable/ic_recents"
+                android:scaleType="centerCrop"
+                />
+
+            <ImageView
+                android:id="@+id/refresh"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:paddingHorizontal="@dimen/status_bar_padding_start"
+                android:paddingBottom="2dp"
+                android:src="@drawable/ic_eink_refresh"
+                android:scaleType="center"
+                />
+
+        </LinearLayout>
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/midlineVertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.5" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/midlineHorizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.5" />
+
         <FrameLayout
-            android:layout_height="match_parent"
+            android:layout_height="24dp"
             android:layout_width="wrap_content"
             android:layout_weight="1"
-            android:gravity="end">
+            android:gravity="end"
+            app:layout_constraintStart_toEndOf="@id/midlineVertical"
+            app:layout_constraintBottom_toTopOf="@id/midlineHorizontal"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1">
 
             <include layout="@layout/heads_up_status_bar_layout" />
 
@@ -64,15 +139,24 @@
              DISABLE_NOTIFICATION_ICONS, respectively -->
             <LinearLayout
                 android:id="@+id/status_bar_left_side"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
                 android:clipChildren="false"
                 >
                 <ViewStub
                     android:id="@+id/operator_name"
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout="@layout/operator_name" />
+
+
+                <com.android.systemui.statusbar.AlphaOptimizedFrameLayout
+                    android:id="@+id/notification_icon_area"
+                    android:layout_width="100dp"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:layoutDirection="rtl"
+                    android:clipChildren="false"/>
 
                 <com.android.systemui.statusbar.policy.Clock
                     android:id="@+id/clock"
@@ -80,19 +164,9 @@
                     android:layout_height="match_parent"
                     android:textAppearance="@style/TextAppearance.StatusBar.Clock"
                     android:singleLine="true"
-                    android:paddingStart="@dimen/status_bar_left_clock_starting_padding"
-                    android:paddingEnd="@dimen/status_bar_left_clock_end_padding"
-                    android:gravity="center_vertical|start"
+                    android:paddingStart="@dimen/status_bar_left_clock_end_padding"
+                    android:gravity="center"
                     />
-
-                <com.android.systemui.statusbar.AlphaOptimizedFrameLayout
-                    android:id="@+id/notification_icon_area"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:orientation="horizontal"
-                    android:clipChildren="false"/>
-
             </LinearLayout>
         </FrameLayout>
 
@@ -100,30 +174,43 @@
         <android.widget.Space
             android:id="@+id/cutout_space_view"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:gravity="end|center_vertical"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             />
 
         <com.android.systemui.statusbar.AlphaOptimizedFrameLayout
             android:id="@+id/centered_icon_area"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:clipChildren="false"
             android:gravity="end|center_vertical"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             />
 
         <com.android.keyguard.AlphaOptimizedLinearLayout android:id="@+id/system_icon_area"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="24dp"
             android:layout_weight="1"
             android:orientation="horizontal"
             android:gravity="center_vertical|end"
+            app:layout_constraintTop_toBottomOf="@id/midlineHorizontal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/midlineVertical"
+            app:layout_constraintHorizontal_bias="1"
             >
 
             <include layout="@layout/system_icons" />
         </com.android.keyguard.AlphaOptimizedLinearLayout>
-    </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <ViewStub
         android:id="@+id/emergency_cryptkeeper_text"

@@ -17,17 +17,78 @@
 package com.android.systemui.eink.statusbar;
 
 import android.annotation.Nullable;
+import android.content.Context;
+import android.hardware.input.InputManager;
 import android.os.Bundle;
-import android.view.View;
+import static android.view.Display.INVALID_DISPLAY;
 
+import android.os.EinkManager;
+import android.os.SystemClock;
+import android.view.InputDevice;
+import android.view.KeyCharacterMap;
+import android.view.KeyEvent;
+import android.view.View;
+import android.widget.ImageView;
+
+import com.android.systemui.Dependency;
+import com.android.systemui.bubbles.BubbleController;
 import com.android.systemui.statusbar.phone.CollapsedStatusBarFragment;
+import com.android.systemui.R;
 
 public class EinkCollapsedStatusBarFragment extends CollapsedStatusBarFragment {
     public static String TAG = "EinkCollapsedStatusBarFragment";
+    private EinkManager mEinkManager;
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        if (mEinkManager == null){
+            mEinkManager = (EinkManager) getContext().getSystemService(Context.EINK_SERVICE);
+        }
         super.onViewCreated(view, savedInstanceState);
-        // TODO: Handle custom views here
+        ImageView home = view.findViewById(R.id.home);
+        ImageView back = view.findViewById(R.id.back);
+        ImageView recents = view.findViewById(R.id.recents);
+        ImageView refresh = view.findViewById(R.id.refresh);
+
+        home.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) { sendKey(KeyEvent.KEYCODE_HOME); }
+        });
+
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) { sendKey(KeyEvent.KEYCODE_BACK); }
+        });
+
+        recents.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) { sendKey(KeyEvent.KEYCODE_APP_SWITCH); }
+        });
+
+        refresh.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mEinkManager != null) {
+                    mEinkManager.sendOneFullFrame();
+                    view.postInvalidate();
+                }
+            }
+        });
+    }
+
+
+    private void sendKey(int code) {
+        long when = SystemClock.uptimeMillis();
+        final KeyEvent evDown = new KeyEvent(when, when, KeyEvent.ACTION_DOWN, code, 0 /* repeat */,
+                0 /* metaState */, KeyCharacterMap.VIRTUAL_KEYBOARD, 0 /* scancode */,
+                KeyEvent.FLAG_FROM_SYSTEM | KeyEvent.FLAG_VIRTUAL_HARD_KEY,
+                InputDevice.SOURCE_KEYBOARD);
+        final KeyEvent evUp = new KeyEvent(when, when, KeyEvent.ACTION_UP, code, 0 /* repeat */,
+                0 /* metaState */, KeyCharacterMap.VIRTUAL_KEYBOARD, 0 /* scancode */,
+                KeyEvent.FLAG_FROM_SYSTEM | KeyEvent.FLAG_VIRTUAL_HARD_KEY,
+                InputDevice.SOURCE_KEYBOARD);
+
+        InputManager.getInstance().injectInputEvent(evDown, InputManager.INJECT_INPUT_EVENT_MODE_ASYNC);
+        InputManager.getInstance().injectInputEvent(evUp, InputManager.INJECT_INPUT_EVENT_MODE_ASYNC);
     }
 }
