@@ -20,62 +20,86 @@ import android.annotation.Nullable;
 import android.content.Context;
 import android.hardware.input.InputManager;
 import android.os.Bundle;
-import static android.view.Display.INVALID_DISPLAY;
 
 import android.os.EinkManager;
+import android.os.Handler;
+import android.os.Message;
 import android.os.SystemClock;
 import android.view.InputDevice;
 import android.view.KeyCharacterMap;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ImageView;
 
-import com.android.systemui.Dependency;
-import com.android.systemui.bubbles.BubbleController;
 import com.android.systemui.statusbar.phone.CollapsedStatusBarFragment;
 import com.android.systemui.R;
+import com.android.systemui.statusbar.phone.EinkDialog;
 
 public class EinkCollapsedStatusBarFragment extends CollapsedStatusBarFragment {
     public static String TAG = "EinkCollapsedStatusBarFragment";
     private EinkManager mEinkManager;
+    private boolean einkMenuShowing = false;
+    private EinkDialog mEinkDialog;
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
         if (mEinkManager == null){
             mEinkManager = (EinkManager) getContext().getSystemService(Context.EINK_SERVICE);
         }
-        super.onViewCreated(view, savedInstanceState);
+
         ImageView home = view.findViewById(R.id.home);
+        home.setOnClickListener(v -> {
+            dismissEinkDialog();
+            sendKey(KeyEvent.KEYCODE_HOME);
+        });
+
         ImageView back = view.findViewById(R.id.back);
+        back.setOnClickListener(v -> sendKey(KeyEvent.KEYCODE_BACK));
+
         ImageView recents = view.findViewById(R.id.recents);
+        recents.setOnClickListener(v -> {
+            dismissEinkDialog();
+            sendKey(KeyEvent.KEYCODE_APP_SWITCH);
+        });
+
         ImageView refresh = view.findViewById(R.id.refresh);
-
-        home.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) { sendKey(KeyEvent.KEYCODE_HOME); }
-        });
-
-        back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) { sendKey(KeyEvent.KEYCODE_BACK); }
-        });
-
-        recents.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) { sendKey(KeyEvent.KEYCODE_APP_SWITCH); }
-        });
-
-        refresh.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (mEinkManager != null) {
-                    mEinkManager.sendOneFullFrame();
-                    view.postInvalidate();
-                }
+        refresh.setOnClickListener(v -> {
+            if (mEinkManager != null) {
+                mEinkManager.sendOneFullFrame();
+                view.postInvalidate();
             }
+        });
+
+        ImageView tune = view.findViewById(R.id.tune);
+        tune.setOnClickListener(v -> {
+            Handler dialogHandler = new Handler() {
+                @Override
+                public void handleMessage(Message msg) {
+                    if (msg.what == 0) {
+                        if (!einkMenuShowing) {
+                            mEinkDialog = new EinkDialog(getContext());
+                            mEinkDialog.getWindow().setType(
+                                    (WindowManager.LayoutParams.TYPE_SYSTEM_DIALOG));
+                            mEinkDialog.setCanceledOnTouchOutside(true);
+                            mEinkDialog.show();
+                            mEinkDialog.setOnCancelListener(dialog -> einkMenuShowing = false);
+                        }
+                    }
+                }
+            };
+            dialogHandler.sendEmptyMessageDelayed(0, 100);
         });
     }
 
+    private void dismissEinkDialog() {
+        if (mEinkDialog != null  && mEinkDialog.isShowing()) {
+            mEinkDialog.dismissAllDialog();
+            mEinkDialog = null;
+        }
+    }
 
     private void sendKey(int code) {
         long when = SystemClock.uptimeMillis();

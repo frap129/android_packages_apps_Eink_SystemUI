@@ -126,6 +126,21 @@
                 android:layout_width="1.5dp"
                 android:layout_height="match_parent"
                 android:background="#000000"/>
+
+            <ImageView
+                android:id="@+id/tune"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:paddingHorizontal="@dimen/status_bar_padding_start"
+                android:paddingBottom="1.5dp"
+                android:src="@drawable/ic_tune"
+                android:scaleType="center"
+                />
+
+            <View
+                android:layout_width="1.5dp"
+                android:layout_height="match_parent"
+                android:background="#000000"/>
         </LinearLayout>
 
         <androidx.constraintlayout.widget.Guideline
