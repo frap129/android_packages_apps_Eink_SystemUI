@@ -20,6 +20,7 @@ import android.content.Context;
 import android.os.Handler;
 import android.os.PowerManager;
 import android.util.DisplayMetrics;
+import android.view.View;
 
 import androidx.annotation.Nullable;
 
@@ -32,6 +33,7 @@ import com.android.systemui.assist.AssistManager;
 import com.android.systemui.broadcast.BroadcastDispatcher;
 import com.android.systemui.bubbles.BubbleController;
 import com.android.systemui.colorextraction.SysuiColorExtractor;
+import com.android.systemui.fragments.ExtensionFragmentListener;
 import com.android.systemui.fragments.FragmentHostManager;
 import com.android.systemui.keyguard.DismissCallbackRegistry;
 import com.android.systemui.keyguard.KeyguardViewMediator;
@@ -40,6 +42,8 @@ import com.android.systemui.keyguard.WakefulnessLifecycle;
 import com.android.systemui.plugins.DarkIconDispatcher;
 import com.android.systemui.plugins.FalsingManager;
 import com.android.systemui.plugins.PluginDependencyProvider;
+import com.android.systemui.plugins.qs.QS;
+import com.android.systemui.qs.QSFragment;
 import com.android.systemui.recents.Recents;
 import com.android.systemui.recents.ScreenPinningRequest;
 import com.android.systemui.shared.plugins.PluginManager;
@@ -92,6 +96,7 @@ import com.android.systemui.statusbar.phone.StatusBarNotificationActivityStarter
 import com.android.systemui.statusbar.phone.StatusBarTouchableRegionManager;
 import com.android.systemui.statusbar.phone.dagger.StatusBarComponent;
 import com.android.systemui.statusbar.policy.BatteryController;
+import com.android.systemui.statusbar.policy.BrightnessMirrorController;
 import com.android.systemui.statusbar.policy.ConfigurationController;
 import com.android.systemui.statusbar.policy.DeviceProvisionedController;
 import com.android.systemui.statusbar.policy.ExtensionController;
@@ -221,11 +226,20 @@ public class EinkStatusBar extends StatusBar {
     @Override
     protected void makeStatusBarView(@Nullable RegisterStatusBarResult result) {
         super.makeStatusBarView(result);
+
+        // Inject custom statusbar
         FragmentHostManager.get(mPhoneStatusBarWindow)
                 .getFragmentManager()
                 .beginTransaction()
                 .replace(R.id.status_bar_container, new EinkCollapsedStatusBarFragment(),
                         CollapsedStatusBarFragment.TAG)
+                .commit();
+
+        // Replace QS fragment with Eink variant
+        FragmentHostManager.get(mNotificationShadeWindowView)
+                .getFragmentManager()
+                .beginTransaction()
+                .replace(R.id.qs_frame, new EinkQSFragment(), QS.TAG)
                 .commit();
     }
 }
